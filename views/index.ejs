@@ -1,1 +1,152 @@
-Middle
+<div class="container">
+    <div class="carousel">
+        <div class="items">
+            <div class="template image-a"></div>
+            <div class="template image-b"></div>
+            <div class="template active image-c"></div>
+            <div class="template image-d"></div>
+            <div class="template image-e"></div>
+            <div class="controls">
+                <div class="control prev"></div>
+                <div class="control next"></div>
+            </div>
+        </div>
+        <button class="select-template-btn">Select</button>
+    </div>
+</div>
+<script>
+    let items = document.body.querySelectorAll('.template');
+    let next = document.querySelector('.next');
+    let prev = document.querySelector('.prev');
+    let currentItem = 2;
+    let currentX = 0;
+
+    prev.addEventListener('click', () => {
+        if (currentItem <= 0) 
+            return
+
+        currentItem--;
+        items.forEach((item) => { item.classList.remove('active')});
+        items[currentItem].classList.add('active');
+        slideItems('prev');
+    });
+
+    next.addEventListener('click', () => {
+        if (currentItem >= items.length - 1) 
+            return
+
+        currentItem++;
+        items.forEach((item) => { item.classList.remove('active')});
+        items[currentItem].classList.add('active');
+        slideItems('next');
+    });
+
+    function slideItems(side){
+        let step = 60;
+        if (side == 'prev') {
+            currentX += step;
+            items.forEach((item, index)=>{
+                item.style.transform = `translateX(${ currentX }px)`;
+            });
+        } else {
+            currentX -= step;
+            items.forEach((item, index)=>{
+                item.style.transform = `translateX(${ currentX }px)`;
+            });
+        }
+        
+    }
+</script>
+<style>
+.container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.carousel {
+    text-align: center;
+}
+
+.controls {
+    position : absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 115px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.control {
+    width: 15px;
+    height: 30px;
+    background-color: orangered;
+}
+
+.items {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.items:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    background-image: linear-gradient(to right ,#ffffff ,transparent );
+    z-index: 1;
+}
+
+.items:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50px;
+    background-image: linear-gradient(to left ,#ffffff ,transparent );
+    z-index: 1;
+}
+
+.template {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    margin: 0 10px;
+    box-sizing: border-box;
+    transition: width .2s ease, height .2s ease, transform .2s ease;
+}
+
+.active {
+    width: 60px;
+    height: 60px;
+    margin: 0 30px;
+}
+
+.select-template-btn {
+    margin-top: 30px;
+}
+
+.image-a {
+    background-color: lightblue;
+}
+.image-b {
+    background-color: lightcoral;
+}
+.image-c {
+    background-color: lightgreen;
+}
+.image-d {
+    background-color: lightseagreen;
+}
+.image-e {
+    background-color: lightsalmon; 
+}
+</style>
